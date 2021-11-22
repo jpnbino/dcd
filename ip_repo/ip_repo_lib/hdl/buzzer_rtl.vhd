@@ -14,6 +14,7 @@ use ieee.std_logic_unsigned.all;
 
 entity buzzer is
   port(
+    en : in std_logic;
     clk: in std_logic;
     sel_freq: in std_logic;
     output: out std_logic_vector (1 DOWNTO 0);
@@ -26,10 +27,12 @@ architecture rtl of buzzer is
   	signal aux : std_logic_vector (15 DOWNTO 0);
   	signal sub_clk : std_logic;
   	signal sel : std_logic;
+  	signal enable : std_logic;
   	constant FREQ_1KHZ: std_logic_vector (15 DOWNTO 0) := (x"F424");
   	constant FREQ_2KHZ: std_logic_vector (15 DOWNTO 0) := (x"7A12");
 begin
 
+enable <= en;
 sel <= sel_freq;
 
 process(clk, sel)
@@ -55,14 +58,17 @@ if rising_edge(clk) then
 end if;    
 end process;
 
-process( sub_clk)
+process( sub_clk, enable)
 begin
-if ( sub_clk = '1' )then
-  output <= "10";
-elsif ( sub_clk = '0') then
-  output <= "01";
+if ( enable = '1') then
+  if ( sub_clk = '1' )then
+    output <= "10";
+  elsif ( sub_clk = '0') then
+    output <= "01";
+  end if;
+else
+  output <= "00";  
 end if;
-
 end process;
 
 end architecture rtl;
