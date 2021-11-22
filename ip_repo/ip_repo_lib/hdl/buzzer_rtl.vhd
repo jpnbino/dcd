@@ -16,51 +16,54 @@ entity buzzer is
   port(
     clk: in std_logic;
     sel_freq: in std_logic;
-    output: out std_logic_vector (1 DOWNTO 0)
+    output: out std_logic_vector (1 DOWNTO 0);
+    leds: out std_logic_vector (1 DOWNTO 0)
   );
 end entity buzzer;
 
 --
 architecture rtl of buzzer is
-  	signal aux : integer := 0;
-  	signal counter_sec : integer := 0;
-  	signal sub_clk : std_logic := '0';
-  	constant FREQ_1KHZ: integer:= 125000;
-  	constant FREQ_2KHZ: integer:= 62500;
+  	signal aux : std_logic_vector (15 DOWNTO 0);
+  	signal sub_clk : std_logic;
+  	signal sel : std_logic;
+  	constant FREQ_1KHZ: std_logic_vector (15 DOWNTO 0) := (x"F424");
+  	constant FREQ_2KHZ: std_logic_vector (15 DOWNTO 0) := (x"7A12");
 begin
-  
-process(clk, sel_freq)
-begin
-  
-  if (sel_freq = '1') then
-    if rising_edge(clk) then
-          aux <= aux + 1;
-        if( aux = FREQ_2KHZ) then
-          aux <= 0;
-          sub_clk <= not sub_clk;
-          if ( sub_clk = '1' )then
-            output <= "10";
-          elsif ( sub_clk = '0') then
-            output <= "01";
-          end if;
-        end if;
-    end if;       
-  elsif (sel_freq = '0') then
-    if rising_edge(clk) then
-          aux <= aux + 1;
-      if( aux = FREQ_1KHZ) then
-        aux <= 0;
+
+sel <= sel_freq;
+
+process(clk, sel)
+begin 
+
+if rising_edge(clk) then
+  aux <= aux + 1;
+  if (sel = '0') then
+    leds <= "01";          
+    if( aux = FREQ_1KHZ) then
+      aux <= (others => '0');
+      sub_clk <= not sub_clk;
+    end if;
+  elsif (sel = '1') then
+    if( aux = FREQ_2KHZ) then
+        leds <= "10";
+        aux <= (others => '0');
         sub_clk <= not sub_clk;
-        if ( sub_clk = '1' )then
-          output <= "10";
-        elsif ( sub_clk = '0') then
-          output <= "01";
-        end if;
-      end if;
-    end if;      
-  end if;    
-  
-  
+    end if;
+  else
+    leds <= "11";
+  end if;      
+end if;    
 end process;
+
+process( sub_clk)
+begin
+if ( sub_clk = '1' )then
+  output <= "10";
+elsif ( sub_clk = '0') then
+  output <= "01";
+end if;
+
+end process;
+
 end architecture rtl;
 
