@@ -1,0 +1,17 @@
+[DesignChecker]
+ip_repo_lib = $HDS_PROJECT_DIR/ip_repo_lib/designcheck
+[ModelSim]
+ip_repo_lib = $HDS_PROJECT_DIR/ip_repo_lib/work
+[XilinxVivado]
+ip_repo_lib = $HDS_PROJECT_DIR/ip_repo_lib/vivado
+[hdl]
+ip_repo_lib = $HDS_PROJECT_DIR/ip_repo_lib/hdl
+[hds]
+ip_repo_lib = $HDS_PROJECT_DIR/ip_repo_lib/hds
+[hds_settings]
+default_library = ip_repo_lib
+version = 2
+[library_type]
+ip_repo_lib = regular
+[shared]
+others = $HDS_TEAM_HOME/shared.hdp
