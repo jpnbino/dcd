@@ -1,0 +1,7 @@
+
+*.bak
+*.replaced
+*._epf
+*._fpf
+*.lck
+work/
