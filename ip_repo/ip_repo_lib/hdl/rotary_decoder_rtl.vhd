@@ -18,14 +18,14 @@ entity rotary_decoder is
     A: in std_logic;
     B: in std_logic;
     preset: in std_logic;
-    preset_val: in std_logic_vector(4 Downto 0);
-    val : out std_logic_vector(4 Downto 0)
+    preset_val: in std_logic_vector(3 Downto 0);
+    val : out std_logic_vector(3 Downto 0)
   );
 end entity rotary_decoder;
 
 --
 architecture rtl of rotary_decoder is
-  signal s_val: std_logic_vector(4 Downto 0);
+  signal s_val: std_logic_vector(3 Downto 0);
   signal AB: std_logic_vector (1 downto 0) := "00";
   signal S_AB: std_logic_vector (1 downto 0) := "00";  
 begin 
