@@ -36,10 +36,10 @@ begin
             s_val <= preset_val;
          else
             if ( AB = "11" and S_AB = "10") then
-              s_val <= s_val + 1;
+              s_val <= s_val - 1;
               S_AB <= AB;
             elsif ( AB = "11" and S_AB = "01") then
-              s_val <= s_val - 1;
+              s_val <= s_val + 1;
               S_AB <= AB;
             else
               S_AB <= AB;
